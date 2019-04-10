@@ -31,7 +31,8 @@ class Trainer(object):
 
         # Define Dataloader
         kwargs = {'num_workers': args.workers, 'pin_memory': True}
-        self.train_loader, self.val_loader, self.test_loader, self.nclass = make_data_loader(args, **kwargs)
+        #self.train_loader, self.val_loader, self.test_loader, self.nclass = make_data_loader(args, **kwargs)
+        self.nclass = 21
 
         # Define network
         model = DeepLab(num_classes=self.nclass,
@@ -62,10 +63,10 @@ class Trainer(object):
         self.model, self.optimizer = model, optimizer
 
         # Define Evaluator
-        self.evaluator = Evaluator(self.nclass)
+        #self.evaluator = Evaluator(self.nclass)
         # Define lr scheduler
-        self.scheduler = LR_Scheduler(args.lr_scheduler, args.lr,
-                                      args.epochs, len(self.train_loader))
+        #self.scheduler = LR_Scheduler(args.lr_scheduler, args.lr,
+                                      #args.epochs, len(self.train_loader))
 
         # Using cuda
         if args.cuda:
@@ -188,7 +189,7 @@ class Trainer(object):
 
     def validate(self, image):
         self.model.eval()
-        self.evaluator.reset()
+        #self.evaluator.reset()
 
         image = np.expand_dims(image, axis=0)
         image = np.transpose(image, [0, 3, 1, 2])
